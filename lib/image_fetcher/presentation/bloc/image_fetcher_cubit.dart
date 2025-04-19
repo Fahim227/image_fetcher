@@ -14,7 +14,6 @@ class ImageFetcherCubit extends Cubit<ImageFetcherState> {
 
   Future<void> isPermissionGranted() async {
     final isGranted = await _permissionService.isStoragePermissionGranted();
-    log("isGranted === $isGranted");
     if (isGranted) {
       emit(ImageFetcherPermissionGranted());
     } else {

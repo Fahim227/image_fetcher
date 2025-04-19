@@ -1,0 +1,160 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_fetcher/core/styles/text_style/app_text_style.dart';
+import 'package:image_fetcher/core/widgets/common_button.dart';
+
+import 'package:image_fetcher/core/styles/colors.dart';
+import 'package:image_fetcher/gallery/presentation/bloc/image_gallery_cubit.dart';
+import 'package:image_fetcher/gallery/presentation/widget/photo_card_view.dart';
+
+class AllPhotos extends StatefulWidget {
+  const AllPhotos({super.key});
+
+  @override
+  State<AllPhotos> createState() => _AllPhotosState();
+}
+
+class _AllPhotosState extends State<AllPhotos> {
+  final _scrollController = ScrollController();
+  final List<String> selectedImages = [];
+  final isDownloading = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        context.read<ImageGalleryCubit>().loadMoreImages();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    return Scaffold(
+      floatingActionButton: Container(
+          color: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: isDownloading,
+            builder: (context, isLoading, child) {
+              return CommonButton(
+                width: size.width,
+                height: 42,
+                borderColor: AppColors.buttonColor,
+                buttonColor: AppColors.buttonColor,
+                buttonContent: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (isLoading) ...[
+                      const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      )
+                    ],
+                    Text(
+                      "DOWNLOAD",
+                      style: AppTextStyle.getTextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  ],
+                ),
+                onTap: () async {
+                  isDownloading.value = true;
+                  await context
+                      .read<ImageGalleryCubit>()
+                      .saveAllImages(selectedImages);
+                  isDownloading.value = false;
+                },
+              );
+            },
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: BlocConsumer<ImageGalleryCubit, ImageGalleryState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          log("state ===== $state");
+          switch (state) {
+            case ImageGalleryInitial():
+            case ImageGalleryLoading():
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.buttonColor,
+                ),
+              );
+            case ImageGalleryLoaded():
+              final imageList = state.imagePaths;
+              log("imageList == ${imageList.length}");
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    leading: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pop(); // Navigates back to the previous screen
+                      },
+                    ),
+                    title: Text(
+                      'Photos',
+                      style: AppTextStyle.getTextStyle(fontSize: 20),
+                    ),
+                    pinned: true,
+                    floating: true,
+                    snap: true,
+                    backgroundColor: Colors.white, // Customize as needed
+                    centerTitle: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: size.height - 100,
+                      child: GridView.builder(
+                        controller: _scrollController,
+                        scrollDirection: Axis.vertical,
+                        padding: EdgeInsets.zero,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: imageList.length,
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          final imagePath = imageList[index];
+
+                          return PhotoCardView(
+                            imagePath: imagePath,
+                            isSelected: false,
+                            onSelected: (selectedPath) {
+                              selectedImages.add(selectedPath);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              );
+          }
+        },
+      ),
+    );
+  }
+}

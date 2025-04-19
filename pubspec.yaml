@@ -51,6 +51,7 @@ flutter:
   uses-material-design: true
   assets:
      - assets/file_storage.svg
+     - assets/
   fonts:
     - family: Roboto-Black
       fonts:
