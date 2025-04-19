@@ -4,6 +4,8 @@ import 'package:image_fetcher/core/styles/colors.dart';
 import 'package:image_fetcher/image_fetcher/presentation/bloc/image_fetcher_cubit.dart';
 import 'package:image_fetcher/image_fetcher/presentation/widget/permission__handler_widget.dart';
 
+import 'package:image_fetcher/image_fetcher/presentation/pages/all_photos_view.dart';
+
 class AlbumPage extends StatelessWidget {
   const AlbumPage({super.key});
 
@@ -25,8 +27,7 @@ class AlbumPage extends StatelessWidget {
               case ImageFetcherPermissionDenied():
                 return const PermissionHandlerWidget();
               case ImageFetcherPermissionGranted():
-                return const Text("Permission Granted");
-
+                return const AllPhotos();
               default:
                 return const PermissionHandlerWidget();
             }
