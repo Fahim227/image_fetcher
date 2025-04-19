@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_fetcher/core/styles/colors.dart';
+import 'package:image_fetcher/image_fetcher/presentation/bloc/image_fetcher_cubit.dart';
 
+import 'core/dependencies/injectable.dart';
 import 'image_fetcher/presentation/pages/album_page.dart';
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -19,7 +23,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.buttonColor),
         useMaterial3: true,
       ),
-      home: const AlbumPage(),
+      home: BlocProvider(
+        create: (context) => getIt<ImageFetcherCubit>()..isPermissionGranted(),
+        child: const AlbumPage(),
+      ),
     );
   }
 }
