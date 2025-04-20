@@ -40,6 +40,15 @@ class _AllPhotosState extends State<AllPhotos> {
     super.dispose();
   }
 
+  void _handleImageSelected(selectedPath) {
+    if(!selectedImages.contains(selectedPath)){
+      selectedImages.add(selectedPath);
+
+    }else{
+      selectedImages.remove(selectedPath);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -119,8 +128,9 @@ class _AllPhotosState extends State<AllPhotos> {
                     centerTitle: true,
                   ),
                   SliverToBoxAdapter(
-                    child: SizedBox(
+                    child: Container(
                       height: size.height - 100,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: GridView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,
@@ -139,9 +149,7 @@ class _AllPhotosState extends State<AllPhotos> {
                           return PhotoCardView(
                             imagePath: imagePath,
                             isSelected: false,
-                            onSelected: (selectedPath) {
-                              selectedImages.add(selectedPath);
-                            },
+                            onSelected: _handleImageSelected,
                           );
                         },
                       ),

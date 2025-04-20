@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -37,7 +39,7 @@ class _PhotoCardViewState extends State<PhotoCardView> {
     return InkWell(
       onTap: () {
         setState(() {
-          isSelected = true;
+          isSelected = !isSelected;
         });
         widget.onSelected.call(widget.imagePath);
       },
@@ -49,9 +51,20 @@ class _PhotoCardViewState extends State<PhotoCardView> {
             width: 84,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.file(file,
+              child: isSelected
+                  ? ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                child: Image.file(
+                  file,
                   fit: BoxFit.cover,
-                  cacheWidth: (350 * devicePixelRatio).round()),
+                  cacheWidth: (350 * devicePixelRatio).round(),
+                ),
+              )
+                  : Image.file(
+                file,
+                fit: BoxFit.cover,
+                cacheWidth: (350 * devicePixelRatio).round(),
+              ),
             ),
           ),
           if (isSelected) SvgPicture.asset(Assets.tickMark),
