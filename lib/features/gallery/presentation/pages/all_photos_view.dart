@@ -97,6 +97,7 @@ class _AllPhotosState extends State<AllPhotos> {
       body: BlocConsumer<ImageGalleryCubit, ImageGalleryState>(
         listener: (context, state) {},
         builder: (context, state) {
+
           switch (state) {
             case ImageGalleryInitial():
             case ImageGalleryLoading():
@@ -107,6 +108,8 @@ class _AllPhotosState extends State<AllPhotos> {
               );
             case ImageGalleryLoaded():
               final imageList = state.allImages;
+              print("images===== ${imageList.length}");
+              print("has More===== ${state.hasMore}");
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(

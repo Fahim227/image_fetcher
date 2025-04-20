@@ -18,7 +18,8 @@ class ImageGalleryCubit extends Cubit<ImageGalleryState> {
   final int _pageSize = 50;
 
   int _currentPage = 0;
-  void fetchAllImages() async {
+
+  Future<void> fetchAllImages() async {
     emit(ImageGalleryLoading());
     _allImages = await _getAllImages.call();
     final initialItems = _getPage(_currentPage);

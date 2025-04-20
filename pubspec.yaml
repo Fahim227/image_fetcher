@@ -44,6 +44,8 @@ dev_dependencies:
   flutter_gen_runner: 5.8.0
   flutter_lints: ^3.0.0
   injectable_generator: ^2.6.2
+  mockito: ^5.4.0
+  bloc_test: ^9.1.4
 
 
 flutter_native_splash:
