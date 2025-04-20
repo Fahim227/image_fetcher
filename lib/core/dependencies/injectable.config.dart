@@ -11,9 +11,10 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../gallery/presentation/bloc/image_gallery_cubit.dart' as _i444;
-import '../../image_fetcher/presentation/bloc/image_fetcher_cubit.dart'
-    as _i853;
+import '../../features/gallery/presentation/bloc/image_gallery_cubit.dart'
+    as _i827;
+import '../../features/image_fetcher/presentation/bloc/image_fetcher_cubit.dart'
+    as _i261;
 import '../services/image_extractor/image_extractor_impl.dart' as _i1034;
 import '../services/image_extractor/image_extractor_service.dart' as _i373;
 import '../services/permission/permission_service.dart' as _i753;
@@ -34,10 +35,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1018.PermissionServiceImpl());
     gh.singleton<_i373.IImageExtractorService>(
         () => _i1034.ImageExtractorServiceImpl());
-    gh.factory<_i444.ImageGalleryCubit>(
-        () => _i444.ImageGalleryCubit(gh<_i373.IImageExtractorService>()));
-    gh.factory<_i853.ImageFetcherCubit>(
-        () => _i853.ImageFetcherCubit(gh<_i753.PermissionService>()));
+    gh.factory<_i827.ImageGalleryCubit>(
+        () => _i827.ImageGalleryCubit(gh<_i373.IImageExtractorService>()));
+    gh.factory<_i261.ImageFetcherCubit>(
+        () => _i261.ImageFetcherCubit(gh<_i753.PermissionService>()));
     return this;
   }
 }

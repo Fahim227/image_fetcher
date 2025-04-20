@@ -6,10 +6,10 @@ import 'package:image_fetcher/core/styles/text_style/app_text_style.dart';
 import 'package:image_fetcher/core/widgets/common_button.dart';
 
 import 'package:image_fetcher/core/styles/colors.dart';
-import 'package:image_fetcher/gallery/presentation/bloc/image_gallery_cubit.dart';
-import 'package:image_fetcher/gallery/presentation/widget/photo_card_view.dart';
+import 'package:image_fetcher/features/gallery/presentation/bloc/image_gallery_cubit.dart';
+import 'package:image_fetcher/features/gallery/presentation/widget/photo_card_view.dart';
 
-import 'package:image_fetcher/gallery/presentation/widget/common_circular_loader.dart';
+import 'package:image_fetcher/features/gallery/presentation/widget/common_circular_loader.dart';
 
 class AllPhotos extends StatefulWidget {
   const AllPhotos({super.key});
@@ -40,6 +40,14 @@ class _AllPhotosState extends State<AllPhotos> {
     super.dispose();
   }
 
+  void _handleImageSelected(selectedPath) {
+    if (!selectedImages.contains(selectedPath)) {
+      selectedImages.add(selectedPath);
+    } else {
+      selectedImages.remove(selectedPath);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -58,11 +66,14 @@ class _AllPhotosState extends State<AllPhotos> {
                 buttonContent: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (isLoading)
-                      ...[
-                        const CommonCircularLoader(loaderColor: Colors.black,),
-                        const SizedBox(width: 8,)
-                      ],
+                    if (isLoading) ...[
+                      const CommonCircularLoader(
+                        loaderColor: Colors.black,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      )
+                    ],
                     Text(
                       "DOWNLOAD",
                       style: AppTextStyle.getTextStyle(
@@ -86,7 +97,6 @@ class _AllPhotosState extends State<AllPhotos> {
       body: BlocConsumer<ImageGalleryCubit, ImageGalleryState>(
         listener: (context, state) {},
         builder: (context, state) {
-          log("state ===== $state");
           switch (state) {
             case ImageGalleryInitial():
             case ImageGalleryLoading():
@@ -97,7 +107,6 @@ class _AllPhotosState extends State<AllPhotos> {
               );
             case ImageGalleryLoaded():
               final imageList = state.imagePaths;
-              log("imageList == ${imageList.length}");
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
@@ -119,8 +128,9 @@ class _AllPhotosState extends State<AllPhotos> {
                     centerTitle: true,
                   ),
                   SliverToBoxAdapter(
-                    child: SizedBox(
+                    child: Container(
                       height: size.height - 100,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: GridView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,
@@ -139,9 +149,7 @@ class _AllPhotosState extends State<AllPhotos> {
                           return PhotoCardView(
                             imagePath: imagePath,
                             isSelected: false,
-                            onSelected: (selectedPath) {
-                              selectedImages.add(selectedPath);
-                            },
+                            onSelected: _handleImageSelected,
                           );
                         },
                       ),

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_fetcher/core/widgets/common_button.dart';
 import 'package:image_fetcher/gen/assets.gen.dart';
-import 'package:image_fetcher/image_fetcher/presentation/bloc/image_fetcher_cubit.dart';
+import 'package:image_fetcher/features/image_fetcher/presentation/bloc/image_fetcher_cubit.dart';
 import 'package:image_fetcher/core/styles/colors.dart';
 import 'package:image_fetcher/core/styles/fonts/font.dart';
 import 'package:image_fetcher/core/styles/text_style/app_text_style.dart';
