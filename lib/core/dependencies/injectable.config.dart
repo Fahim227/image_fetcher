@@ -14,7 +14,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../gallery/presentation/bloc/image_gallery_cubit.dart' as _i444;
 import '../../image_fetcher/presentation/bloc/image_fetcher_cubit.dart'
     as _i853;
-import '../services/image_extractor/android_image_extractor.dart' as _i684;
+import '../services/image_extractor/image_extractor_impl.dart' as _i1034;
 import '../services/image_extractor/image_extractor_service.dart' as _i373;
 import '../services/permission/permission_service.dart' as _i753;
 import '../services/permission/permission_service_impl.dart' as _i1018;
@@ -33,7 +33,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i753.PermissionService>(
         () => _i1018.PermissionServiceImpl());
     gh.singleton<_i373.IImageExtractorService>(
-        () => _i684.ImageExtractorServiceImpl());
+        () => _i1034.ImageExtractorServiceImpl());
     gh.factory<_i444.ImageGalleryCubit>(
         () => _i444.ImageGalleryCubit(gh<_i373.IImageExtractorService>()));
     gh.factory<_i853.ImageFetcherCubit>(
