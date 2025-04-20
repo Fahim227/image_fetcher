@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_fetcher/core/styles/text_style/app_text_style.dart';
@@ -18,7 +20,7 @@ class AllPhotos extends StatefulWidget {
 
 class _AllPhotosState extends State<AllPhotos> {
   final _scrollController = ScrollController();
-  final List<String> selectedImages = [];
+  final List<File> selectedImages = [];
   final isDownloading = ValueNotifier<bool>(false);
 
   @override

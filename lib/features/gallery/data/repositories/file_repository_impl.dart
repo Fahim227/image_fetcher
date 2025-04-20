@@ -19,12 +19,12 @@ class FileRepositoryImpl implements FileRepository {
   }
 
   @override
-  Future<String> saveAllFiles(List<String> images) async {
+  Future<String> saveAllFiles(List<File> images) async {
     List<Uint8List> imagesInBytes = await getImagesInBytes(images);
     return await _platformDataSource.saveAllImages(imagesInBytes);
   }
 
-  Future<List<Uint8List>> getImagesInBytes(List<String> images) async {
-    return await Future.wait(images.map((e) => File(e).readAsBytes()));
+  Future<List<Uint8List>> getImagesInBytes(List<File> images) async {
+    return await Future.wait(images.map((e) => e.readAsBytes()));
   }
 }

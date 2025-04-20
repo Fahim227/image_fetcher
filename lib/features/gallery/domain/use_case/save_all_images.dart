@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
 
 import '../repositories/file_repository.dart';
@@ -8,7 +10,7 @@ class SaveAllImages {
 
   SaveAllImages(this._repository);
 
-  Future<String> call(List<String> images) async {
+  Future<String> call(List<File> images) async {
     return await _repository.saveAllFiles(images);
   }
 }

@@ -48,7 +48,7 @@ class ImageGalleryCubit extends Cubit<ImageGalleryState> {
     return _allImages.sublist(start, end);
   }
 
-  Future<void> saveAllImages(List<String> allImages) async {
+  Future<void> saveAllImages(List<File> allImages) async {
     await _saveAllImages.call(allImages);
   }
 }
