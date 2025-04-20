@@ -10,26 +10,22 @@ class ImageGalleryCubit extends Cubit<ImageGalleryState> {
   ImageGalleryCubit(this.iImageExtractorService) : super(ImageGalleryInitial());
 
   List<String> _allImages = [];
-  final int _pageSize = 100;
+  final int _pageSize = 50;
 
   int _currentPage = 0;
   void fetchAllImages() async {
     emit(ImageGalleryLoading());
     _allImages = await iImageExtractorService.getImages();
-    _currentPage = 0;
     final initialItems = _getPage(_currentPage);
-    emit(ImageGalleryLoaded(initialItems));
+    emit(ImageGalleryLoaded(initialItems, _hasMore()));
   }
 
   void loadMoreImages() {
-    if (state is ImageGalleryLoaded) {
+    if (state is ImageGalleryLoaded && (state as ImageGalleryLoaded).hasMore) {
       _currentPage++;
       final nextItems = _getPage(_currentPage);
-      final currentImages =
-          List<String>.from((state as ImageGalleryLoaded).imagePaths);
-
-      emit(ImageGalleryLoaded([...currentImages, ...nextItems],
-          hasMore: _hasMore()));
+      final currentImages = (state as ImageGalleryLoaded).imagePaths;
+      emit(ImageGalleryLoaded([...currentImages, ...nextItems], _hasMore()));
     }
   }
 
