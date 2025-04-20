@@ -46,6 +46,16 @@ dev_dependencies:
   injectable_generator: ^2.6.2
 
 
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splash.png
+  android: true
+  ios: true
+
+  android_12:
+   image: assets/splash.png
+   color: "#ffffff"
+
 
 flutter:
   uses-material-design: true
