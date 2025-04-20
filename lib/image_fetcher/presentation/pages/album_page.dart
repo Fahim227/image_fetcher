@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_fetcher/core/styles/colors.dart';
 import 'package:image_fetcher/gallery/presentation/bloc/image_gallery_cubit.dart';
+import 'package:image_fetcher/gallery/presentation/widget/common_circular_loader.dart';
 import 'package:image_fetcher/image_fetcher/presentation/bloc/image_fetcher_cubit.dart';
 import 'package:image_fetcher/image_fetcher/presentation/widget/permission__handler_widget.dart';
 import 'package:image_fetcher/gallery/presentation/pages/all_photos_view.dart';
@@ -29,11 +30,7 @@ class AlbumPage extends StatelessWidget {
       }, builder: (context, state) {
         switch (state) {
           case ImageFetcherLoadingState():
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.buttonColor,
-              ),
-            );
+            return const CommonCircularLoader(loaderColor: AppColors.themeColor);
           case ImageFetcherInitial():
           case ImageFetcherPermissionPermanentlyDenied():
           case ImageFetcherPermissionDenied():

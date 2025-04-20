@@ -9,6 +9,8 @@ import 'package:image_fetcher/core/styles/colors.dart';
 import 'package:image_fetcher/gallery/presentation/bloc/image_gallery_cubit.dart';
 import 'package:image_fetcher/gallery/presentation/widget/photo_card_view.dart';
 
+import 'package:image_fetcher/gallery/presentation/widget/common_circular_loader.dart';
+
 class AllPhotos extends StatefulWidget {
   const AllPhotos({super.key});
 
@@ -51,21 +53,16 @@ class _AllPhotosState extends State<AllPhotos> {
               return CommonButton(
                 width: size.width,
                 height: 42,
-                borderColor: AppColors.buttonColor,
-                buttonColor: AppColors.buttonColor,
+                borderColor: AppColors.themeColor,
+                buttonColor: AppColors.themeColor,
                 buttonContent: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (isLoading) ...[
-                      const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      )
-                    ],
+                    if (isLoading)
+                      ...[
+                        const CommonCircularLoader(loaderColor: Colors.black,),
+                        const SizedBox(width: 8,)
+                      ],
                     Text(
                       "DOWNLOAD",
                       style: AppTextStyle.getTextStyle(
@@ -95,7 +92,7 @@ class _AllPhotosState extends State<AllPhotos> {
             case ImageGalleryLoading():
               return const Center(
                 child: CircularProgressIndicator(
-                  color: AppColors.buttonColor,
+                  color: AppColors.themeColor,
                 ),
               );
             case ImageGalleryLoaded():

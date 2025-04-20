@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Album app',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.buttonColor),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.themeColor),
         useMaterial3: true,
       ),
       home: BlocProvider(

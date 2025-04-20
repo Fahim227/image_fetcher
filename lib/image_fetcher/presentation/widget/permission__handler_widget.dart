@@ -44,8 +44,8 @@ class PermissionHandlerWidget extends StatelessWidget {
             CommonButton(
                 width: 296,
                 height: 42,
-                borderColor: AppColors.buttonColor,
-                buttonColor: AppColors.buttonColor,
+                borderColor: AppColors.themeColor,
+                buttonColor: AppColors.themeColor,
                 buttonContent: Text(
                   "Grant Access",
                   style: AppTextStyle.getTextStyle(
