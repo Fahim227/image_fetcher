@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../gen/assets.gen.dart';
+import '../../../../gen/assets.gen.dart';
 
 class PhotoCardView extends StatefulWidget {
   final String imagePath;
@@ -53,18 +52,18 @@ class _PhotoCardViewState extends State<PhotoCardView> {
               borderRadius: BorderRadius.circular(5),
               child: isSelected
                   ? ImageFiltered(
-                imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                child: Image.file(
-                  file,
-                  fit: BoxFit.cover,
-                  cacheWidth: (350 * devicePixelRatio).round(),
-                ),
-              )
+                      imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                      child: Image.file(
+                        file,
+                        fit: BoxFit.cover,
+                        cacheWidth: (350 * devicePixelRatio).round(),
+                      ),
+                    )
                   : Image.file(
-                file,
-                fit: BoxFit.cover,
-                cacheWidth: (350 * devicePixelRatio).round(),
-              ),
+                      file,
+                      fit: BoxFit.cover,
+                      cacheWidth: (350 * devicePixelRatio).round(),
+                    ),
             ),
           ),
           if (isSelected) SvgPicture.asset(Assets.tickMark),

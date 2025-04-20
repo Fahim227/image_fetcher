@@ -6,10 +6,10 @@ import 'package:image_fetcher/core/styles/text_style/app_text_style.dart';
 import 'package:image_fetcher/core/widgets/common_button.dart';
 
 import 'package:image_fetcher/core/styles/colors.dart';
-import 'package:image_fetcher/gallery/presentation/bloc/image_gallery_cubit.dart';
-import 'package:image_fetcher/gallery/presentation/widget/photo_card_view.dart';
+import 'package:image_fetcher/features/gallery/presentation/bloc/image_gallery_cubit.dart';
+import 'package:image_fetcher/features/gallery/presentation/widget/photo_card_view.dart';
 
-import 'package:image_fetcher/gallery/presentation/widget/common_circular_loader.dart';
+import 'package:image_fetcher/features/gallery/presentation/widget/common_circular_loader.dart';
 
 class AllPhotos extends StatefulWidget {
   const AllPhotos({super.key});
@@ -41,10 +41,9 @@ class _AllPhotosState extends State<AllPhotos> {
   }
 
   void _handleImageSelected(selectedPath) {
-    if(!selectedImages.contains(selectedPath)){
+    if (!selectedImages.contains(selectedPath)) {
       selectedImages.add(selectedPath);
-
-    }else{
+    } else {
       selectedImages.remove(selectedPath);
     }
   }
@@ -67,11 +66,14 @@ class _AllPhotosState extends State<AllPhotos> {
                 buttonContent: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (isLoading)
-                      ...[
-                        const CommonCircularLoader(loaderColor: Colors.black,),
-                        const SizedBox(width: 8,)
-                      ],
+                    if (isLoading) ...[
+                      const CommonCircularLoader(
+                        loaderColor: Colors.black,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      )
+                    ],
                     Text(
                       "DOWNLOAD",
                       style: AppTextStyle.getTextStyle(

@@ -19,7 +19,6 @@ class CommonCircularLoader extends StatelessWidget {
             ),
           ),
         ),
-
       ],
     );
   }
