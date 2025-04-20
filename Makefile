@@ -11,6 +11,9 @@ clean:
 	rm -f pubspec.lock \
 	&& $(FVM_CMD) clean
 
+clean-get:
+	make clean && make pub-get
+
 runner-build:
 	 $(FVM_CMD) pub run build_runner build -d \
 	&& make dart-fix-format
