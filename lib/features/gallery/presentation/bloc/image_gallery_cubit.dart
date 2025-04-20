@@ -1,21 +1,26 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_fetcher/features/gallery/domain/use_case/get_all_images.dart';
+import 'package:image_fetcher/features/gallery/domain/use_case/save_all_images.dart';
 import 'package:injectable/injectable.dart';
-import 'package:image_fetcher/core/services/image_extractor/image_extractor_service.dart';
 part 'image_gallery_state.dart';
 
 @injectable
 class ImageGalleryCubit extends Cubit<ImageGalleryState> {
-  final IImageExtractorService iImageExtractorService;
-  ImageGalleryCubit(this.iImageExtractorService) : super(ImageGalleryInitial());
+  final GetAllImages _getAllImages;
+  final SaveAllImages _saveAllImages;
+  ImageGalleryCubit(this._getAllImages, this._saveAllImages)
+      : super(ImageGalleryInitial());
 
-  List<String> _allImages = [];
+  List<File> _allImages = [];
   final int _pageSize = 50;
 
   int _currentPage = 0;
   void fetchAllImages() async {
     emit(ImageGalleryLoading());
-    _allImages = await iImageExtractorService.getImages();
+    _allImages = await _getAllImages.call();
     final initialItems = _getPage(_currentPage);
     emit(ImageGalleryLoaded(initialItems, _hasMore()));
   }
@@ -24,7 +29,7 @@ class ImageGalleryCubit extends Cubit<ImageGalleryState> {
     if (state is ImageGalleryLoaded && (state as ImageGalleryLoaded).hasMore) {
       _currentPage++;
       final nextItems = _getPage(_currentPage);
-      final currentImages = (state as ImageGalleryLoaded).imagePaths;
+      final currentImages = (state as ImageGalleryLoaded).allImages;
       emit(ImageGalleryLoaded([...currentImages, ...nextItems], _hasMore()));
     }
   }
@@ -33,7 +38,7 @@ class ImageGalleryCubit extends Cubit<ImageGalleryState> {
     return (_currentPage + 1) * _pageSize < _allImages.length;
   }
 
-  List<String> _getPage(int page) {
+  List<File> _getPage(int page) {
     final start = page * _pageSize;
     if (start >= _allImages.length) return [];
 
@@ -44,6 +49,6 @@ class ImageGalleryCubit extends Cubit<ImageGalleryState> {
   }
 
   Future<void> saveAllImages(List<String> allImages) async {
-    await iImageExtractorService.saveAllImages(allImages);
+    await _saveAllImages.call(allImages);
   }
 }

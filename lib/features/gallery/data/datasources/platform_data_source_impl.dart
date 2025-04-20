@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
-import 'image_extractor_service.dart';
+import 'platform_data_source.dart';
 
-@Singleton(as: IImageExtractorService)
-class ImageExtractorServiceImpl implements IImageExtractorService {
+@Injectable(as: PlatformDataSource)
+class PlatformDataSourceImpl implements PlatformDataSource {
   static const MethodChannel _channel = MethodChannel('image_extractor');
 
   static String get getImagesChannelName => "getImages";
@@ -20,9 +18,8 @@ class ImageExtractorServiceImpl implements IImageExtractorService {
   }
 
   @override
-  Future<String> saveAllImages(List<String> images) async {
-    List<Uint8List> imagesInBytes = await getImagesInBytes(images);
-    for (final byte in imagesInBytes) {
+  Future<String> saveAllImages(List<Uint8List> images) async {
+    for (final byte in images) {
       final fileName = "img_${DateTime.now().millisecondsSinceEpoch}.jpg";
       final result = await _channel.invokeMethod(saveImagesChannelName, {
         "bytes": byte,
@@ -32,9 +29,5 @@ class ImageExtractorServiceImpl implements IImageExtractorService {
     }
 
     return "Done";
-  }
-
-  Future<List<Uint8List>> getImagesInBytes(List<String> images) async {
-    return await Future.wait(images.map((e) => File(e).readAsBytes()));
   }
 }

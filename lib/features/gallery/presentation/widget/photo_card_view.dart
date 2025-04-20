@@ -7,12 +7,12 @@ import 'package:image_fetcher/features/gallery/presentation/widget/common_circul
 import 'package:image_fetcher/gen/assets.gen.dart';
 
 class PhotoCardView extends StatefulWidget {
-  final String imagePath;
+  final File imageFile;
   final bool isSelected;
   final Function onSelected;
   const PhotoCardView({
     super.key,
-    required this.imagePath,
+    required this.imageFile,
     required this.isSelected,
     required this.onSelected,
   });
@@ -38,13 +38,12 @@ class _PhotoCardViewState extends State<PhotoCardView> {
 
   @override
   Widget build(BuildContext context) {
-    final file = File(widget.imagePath);
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return InkWell(
       onTap: () {
         isSelected.value = !isSelected.value;
-        widget.onSelected.call(widget.imagePath);
+        widget.onSelected.call(widget.imageFile);
       },
       child: ValueListenableBuilder<bool>(
         valueListenable: isSelected,
@@ -58,7 +57,8 @@ class _PhotoCardViewState extends State<PhotoCardView> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: FutureBuilder<bool>(
-                    future: isImageValid(file), // checks if the file exists
+                    future: isImageValid(
+                        widget.imageFile), // checks if the file exists
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -72,7 +72,7 @@ class _PhotoCardViewState extends State<PhotoCardView> {
                         );
                       } else {
                         final image = Image.file(
-                          file,
+                          widget.imageFile,
                           fit: BoxFit.cover,
                           cacheWidth: (350 * devicePixelRatio).round(),
                         );

@@ -15,11 +15,11 @@ final class ImageGalleryLoading extends ImageGalleryState {
 }
 
 final class ImageGalleryLoaded extends ImageGalleryState {
-  final List<String> imagePaths;
+  final List<File> allImages;
   final bool hasMore;
 
-  const ImageGalleryLoaded(this.imagePaths, this.hasMore);
+  const ImageGalleryLoaded(this.allImages, this.hasMore);
 
   @override
-  List<Object> get props => [imagePaths, hasMore];
+  List<Object> get props => [allImages, hasMore];
 }

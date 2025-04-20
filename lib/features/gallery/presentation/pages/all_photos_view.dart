@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_fetcher/core/styles/text_style/app_text_style.dart';
@@ -106,7 +104,7 @@ class _AllPhotosState extends State<AllPhotos> {
                 ),
               );
             case ImageGalleryLoaded():
-              final imageList = state.imagePaths;
+              final imageList = state.allImages;
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
@@ -144,10 +142,10 @@ class _AllPhotosState extends State<AllPhotos> {
                           childAspectRatio: 1,
                         ),
                         itemBuilder: (context, index) {
-                          final imagePath = imageList[index];
+                          final imageFile = imageList[index];
 
                           return PhotoCardView(
-                            imagePath: imagePath,
+                            imageFile: imageFile,
                             isSelected: false,
                             onSelected: _handleImageSelected,
                           );
