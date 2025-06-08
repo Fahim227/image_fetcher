@@ -1,0 +1,78 @@
+name: Flutter CI with FVM
+
+on:
+  push:
+    branches: ['master']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout Respository
+        uses: actions/checkout@v4
+
+      - name: Set Up Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      # Cache Dart packages
+      - name: Cache Dart packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-cache-
+
+      # Cache FVM directory
+      - name: Cache FVM Directory
+        uses: actions/cache@v3
+        with:
+          path: .fvm/versions
+          key: ${{ runner.os }}-fvm-${{ hashFiles('.fvm/fvm_config.json') }}
+          restore-keys: |
+            ${{ runner.os }}-fvm-
+
+      # Set up Dart using an official GitHub Action
+      - uses: dart-lang/setup-dart@v1
+
+
+      # Check if FVM is installed and install if not
+      - name: Check and Install FVM
+        run: |
+          if ! command -v fvm &> /dev/null; then
+            echo "FVM not found in cache, installing FVM..."
+            dart pub global activate fvm
+          else
+            echo "FVM found in cache."
+          fi
+
+      # Install the Flutter version defined in the .fvm config
+      - name: Install Flutter with FVM
+        run: fvm install
+
+      # Use the installed Flutter version via FVM
+      - name: Use Flutter Version with FVM
+        run: fvm use
+
+      # Run clean-get & build runner build -d
+      - name: Run clean-get & build runner build -d
+        run: make clean-runner-build
+
+      # Format Dart Code
+      - name: Format Dart Code
+        id: format
+        run: |
+          fvm dart format --output=none --set-exit-if-changed .
+        continue-on-error: true
+
+
+
