@@ -87,5 +87,8 @@ jobs:
             echo "No changes detected. Skipping commit and push."
           fi
 
+      - name: Build apk
+        run: fvm flutter build apk --release
+
 
 
