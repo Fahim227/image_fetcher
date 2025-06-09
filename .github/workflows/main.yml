@@ -74,5 +74,18 @@ jobs:
           fvm dart format --output=none --set-exit-if-changed .
         continue-on-error: true
 
+      - name: Commit and Push Changes if Needed
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Changes detected in the repository. Committing and pushing changes."
+            git config --local user.name "${{ github.actor }}"
+            git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+            git add .
+            git commit -m "style: auto-format code or apply fixes via GitHub Actions"
+            git push
+          else
+            echo "No changes detected. Skipping commit and push."
+          fi
+
 
 
