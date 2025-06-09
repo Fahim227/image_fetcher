@@ -7,7 +7,6 @@ import 'package:mockito/mockito.dart';
 
 import '../../domain/use_cases/mock_use_cases/use_cases.mocks.dart';
 
-
 void main() {
   late ImageGalleryCubit cubit;
   late MockGetAllImages mockGetAllImages;
@@ -73,7 +72,6 @@ void main() {
         predicate<ImageGalleryLoaded>((state) {
           return state.allImages.length == 100 && state.hasMore == true;
         }, 'Loaded with 100 images and hasMore true'),
-
       ],
     );
 

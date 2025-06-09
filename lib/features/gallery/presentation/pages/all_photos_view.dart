@@ -97,7 +97,6 @@ class _AllPhotosState extends State<AllPhotos> {
       body: BlocConsumer<ImageGalleryCubit, ImageGalleryState>(
         listener: (context, state) {},
         builder: (context, state) {
-
           switch (state) {
             case ImageGalleryInitial():
             case ImageGalleryLoading():
