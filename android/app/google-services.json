@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "686594488663",
+    "project_id": "image-fetcher-db01b",
+    "storage_bucket": "image-fetcher-db01b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686594488663:android:c53e9384ae817e4c03e612",
+        "android_client_info": {
+          "package_name": "com.image.fetcher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmdhKIscz9_aMIzoMN5wnlLJDR9Di4hjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
