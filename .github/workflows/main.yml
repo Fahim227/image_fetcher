@@ -96,7 +96,7 @@ jobs:
             firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
               --app 1:686594488663:android:c53e9384ae817e4c03e612  \
               --token ${{ secrets.FIREBASE_TOKEN }} \
-              --groups "islamfahim227@gmail.com" \
+              --groups "internal" \
               --release-notes "New release from GitHub Actions"
 
 
